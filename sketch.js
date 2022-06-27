@@ -7,6 +7,10 @@ var engine, world, grama;
 var campo;
 var torre;
 var defesa;
+var birinbinha
+var algulodabirinbinha 
+var bola8;
+
 
 function preload() {
   campo = loadImage("./assets/background.gif");
@@ -28,7 +32,9 @@ function setup() {
 
  torre = Bodies.rectangle(160,350,160,310,options);
  World.add(world, torre);
- 
+ algulodabirinbinha = 20
+ birinbinha = new Bola (180,110,130,100,algulodabirinbinha)
+ bola8 = new Boliche(birinbinha.posX, birinbinha.posY);
 }
 
 function draw() {
@@ -43,4 +49,6 @@ function draw() {
  imageMode(CENTER);
  image(defesa,torre.position.x, torre.position.y, 160, 310);
  pop();
+ birinbinha.rabisco();
+ bola8.rabisco();
 }
