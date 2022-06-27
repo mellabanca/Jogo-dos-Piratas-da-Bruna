@@ -32,6 +32,7 @@ function setup() {
 
  torre = Bodies.rectangle(160,350,160,310,options);
  World.add(world, torre);
+ angleMode(DEGREES)
  algulodabirinbinha = 20
  birinbinha = new Bola (180,110,130,100,algulodabirinbinha)
  bola8 = new Boliche(birinbinha.posX, birinbinha.posY);
@@ -52,3 +53,8 @@ function draw() {
  birinbinha.rabisco();
  bola8.rabisco();
 }
+ function keyReleased(){
+ if(keyCode === DOWN_ARROW){
+ bola8.bang();
+ }
+ }
