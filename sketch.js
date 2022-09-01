@@ -11,6 +11,7 @@ var birinbinha
 var algulodabirinbinha 
 var bola8;
 var pastel = [];
+var iogurte;
 
 
 function preload() {
@@ -36,7 +37,8 @@ function setup() {
  angleMode(DEGREES)
  algulodabirinbinha = 20
  birinbinha = new Bola (180,110,130,100,algulodabirinbinha)
- 
+
+ iogurte = new Tripulacao(width-80, height-60, 170, 170, -80);
 }
 
 function draw() {
@@ -52,11 +54,18 @@ function draw() {
  image(defesa,torre.position.x, torre.position.y, 160, 310);
  pop();
  birinbinha.rabisco();
+ for(var chiclete = 0; chiclete < pastel.length; chiclete ++)
+ {
+   caldoDeCana (pastel[chiclete],chiclete)
+ }
+ 
+ Matter.Body.setVelocity(iogurte.corpo, {x: -0.9, y:0});
+ iogurte.rabisco();
 
 }
  function keyReleased(){
  if(keyCode === DOWN_ARROW){
- bola8.bang();
+ pastel[pastel.length -1].bang();
  }
  }
  function keyPressed(){
