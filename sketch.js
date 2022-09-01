@@ -7,12 +7,12 @@ var engine, world, grama;
 var campo;
 var torre;
 var defesa;
-var birinbinha
-var algulodabirinbinha 
+var birinbinha;
+var algulodabirinbinha;
 var bola8;
 var pastel = [];
 var iogurte;
-
+var barbanegra = [];
 
 function preload() {
   campo = loadImage("./assets/background.gif");
@@ -38,7 +38,6 @@ function setup() {
  algulodabirinbinha = 20
  birinbinha = new Bola (180,110,130,100,algulodabirinbinha)
 
- iogurte = new Tripulacao(width-80, height-60, 170, 170, -80);
 }
 
 function draw() {
@@ -58,10 +57,8 @@ function draw() {
  {
    caldoDeCana (pastel[chiclete],chiclete)
  }
+ capitaogancho();
  
- Matter.Body.setVelocity(iogurte.corpo, {x: -0.9, y:0});
- iogurte.rabisco();
-
 }
  function keyReleased(){
  if(keyCode === DOWN_ARROW){
@@ -78,4 +75,25 @@ function draw() {
     if(bola8){
       bola8.rabisco();
     }
+ }
+ function capitaogancho() {
+ if (barbanegra.length >0 ){
+ if(barbanegra[barbanegra.length-1] === undefined || barbanegra[barbanegra.length-1].corpo.position.x<width -300){
+ var positions = [-40,-60,-70,-20];
+ var position = random (positions);
+ var iogurte = new Tripulacao(width, height-60, 170, 170, position);
+ barbanegra.push(iogurte);
+
+ }
+for (var i = 0; i<barbanegra.length; i ++){
+if (barbanegra[i]){
+  Matter.Body.setVelocity(barbanegra[i].corpo, {x: -0.9, y:0});
+  barbanegra[i].rabisco();
+ 
+}
+}
+ } else {
+var iogurte = new Tripulacao(width, height-60, 170, 170, -80);
+barbanegra.push(iogurte);
+ }
  }
