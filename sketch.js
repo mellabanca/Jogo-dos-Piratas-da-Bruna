@@ -13,10 +13,14 @@ var bola8;
 var pastel = [];
 var iogurte;
 var barbanegra = [];
+var barbanegraAnimation = [];
+var barbanegraDados, barbanegraSpritesheet;
 
 function preload() {
   campo = loadImage("./assets/background.gif");
   defesa = loadImage("./assets/tower.png");
+  barbanegraSpritesheet = loadImage("./assets/boat/boat.png");
+  barbanegraDados = loadJSON("./assets/boat/boat.json");
 }
 
 function setup() {
@@ -38,6 +42,14 @@ function setup() {
  algulodabirinbinha = 20
  birinbinha = new Bola (180,110,130,100,algulodabirinbinha)
 
+ var barbanegraFrames = barbanegraDados.frames;
+
+ for(var i = 0; barbanegraFrames.length < 0; i++){
+  var pos = barbanegraFrames[i].position;
+  var img = barbanegraSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
+  barbanegraAnimation.push(img);
+ }
+
 }
 
 function draw() {
@@ -56,6 +68,7 @@ function draw() {
  for(var chiclete = 0; chiclete < pastel.length; chiclete ++)
  {
    caldoDeCana (pastel[chiclete],chiclete)
+   embate (chiclete)
  }
  capitaogancho();
  
@@ -74,6 +87,9 @@ function draw() {
  function caldoDeCana(bola8, i){
     if(bola8){
       bola8.rabisco();
+      if (bola8.corpo.position.x>=width||bola8.corpo.position.y>=height-50){
+      bola8.jacksparrow(i)
+      }
     }
  }
  function capitaogancho() {
@@ -81,7 +97,7 @@ function draw() {
  if(barbanegra[barbanegra.length-1] === undefined || barbanegra[barbanegra.length-1].corpo.position.x<width -300){
  var positions = [-40,-60,-70,-20];
  var position = random (positions);
- var iogurte = new Tripulacao(width, height-60, 170, 170, position);
+ var iogurte = new Tripulacao(width, height-60, 170, 170, position, barbanegraAnimation);
  barbanegra.push(iogurte);
 
  }
@@ -89,11 +105,23 @@ for (var i = 0; i<barbanegra.length; i ++){
 if (barbanegra[i]){
   Matter.Body.setVelocity(barbanegra[i].corpo, {x: -0.9, y:0});
   barbanegra[i].rabisco();
- 
+  barbanegra[i].marquinhos();
 }
 }
  } else {
-var iogurte = new Tripulacao(width, height-60, 170, 170, -80);
+var iogurte = new Tripulacao(width, height-60, 170, 170, -80, barbanegraAnimation);
 barbanegra.push(iogurte);
+ }
+ }
+ function embate (index){
+ for (var i = 0; i<barbanegra.length; i ++){
+ if (pastel[index]!==undefined&&barbanegra[i]!==undefined){
+ var isi = Matter.SAT.collides(pastel[index].corpo,barbanegra[i].corpo);
+ if (isi.collided){
+ barbanegra[i].jacksparrow(i);
+ World.remove(world,pastel[index].corpo);
+ delete pastel[index];
+ }
+ }
  }
  }

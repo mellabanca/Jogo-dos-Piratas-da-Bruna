@@ -32,5 +32,12 @@ class Boliche {
         velocidade.mult(0.5);
         Matter.Body.setStatic(this.corpo,false);
         Matter.Body.setVelocity(this.corpo,{x:velocidade.x*(180/3.14),y:velocidade.y*(180/3.14)});
-    }
+    }   
+    jacksparrow(index){
+        Matter.Body.setVelocity(this.corpo,{x:0,y:0});
+        setTimeout(()=>{
+        World.remove(world,this.corpo);
+        delete pastel[index];
+        },1000)
+        }
 }    
