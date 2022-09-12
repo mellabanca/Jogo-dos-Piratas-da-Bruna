@@ -20,6 +20,12 @@ var aotDados, aotSpritesheet;
 var aguaAnimation = [];
 var aguaDados, aguaSpritesheet;
 var batata = false;
+var backyardigans;
+var pipoco;
+var palhacada;
+var splash;
+var contando = 0;
+var estaRindo = false;
 
 function preload() {
   campo = loadImage("./assets/background.gif");
@@ -30,6 +36,10 @@ function preload() {
   aotDados = loadJSON("./assets/boat/brokenBoat.json");
   aguaSpritesheet = loadImage("./assets/waterSplash/waterSplash.png");
   aguaDados = loadJSON("./assets/waterSplash/waterSplash.json");
+  backyardigans = loadSound("./assets/background_music.mp3");
+  pipoco = loadSound("./assets/cannon_explosion.mp3");
+  palhacada = loadSound("./assets/pirate_laugh.mp3");
+  splash = loadSound("./assets/cannon_water.mp3");
 }
 function setup() {
 
@@ -80,6 +90,14 @@ function draw() {
   background(189);
   image(campo, 0, 0, 1200, 600);
 
+  if(!backyardigans.isPlaying()){
+    backyardigans.play();
+    backyardigans.setVolume(0.1);
+  }
+
+  fill("darkred")
+  textSize(40)
+  text(contando,50,50)
   Engine.update(engine);
  
  rect(grama.position.x, grama.position.y,width*2,1);
@@ -99,6 +117,8 @@ function draw() {
 }
  function keyReleased(){
  if(keyCode === DOWN_ARROW){
+ pipoco.play();
+ pipoco.setVolume(0.1);
  pastel[pastel.length -1].bang();
  }
  }
@@ -114,6 +134,11 @@ function draw() {
       bola8.marquinhos();
       if (bola8.corpo.position.x>=width||bola8.corpo.position.y>=height-50){
       bola8.jacksparrow(i)
+      if(bola8.titanic === true){
+        splash.playMode("untilDone");
+        splash.play();
+        splash.setVolume(0.3);
+      }
       }
     }
  }
@@ -133,6 +158,11 @@ if (barbanegra[i]){
   barbanegra[i].marquinhos();
   var isi = Matter.SAT.collides(torre, barbanegra[i].corpo);
   if(isi.collided && !barbanegra[i].titanic){
+    if(!estaRindo && !palhacada.isPlaying()){
+      palhacada.play();
+      palhacada.setVolume(0.4);
+      estaRindo = true;
+    }
     batata = true;
     ehOFim();
   }
@@ -148,6 +178,7 @@ barbanegra.push(iogurte);
  if (pastel[index]!==undefined&&barbanegra[i]!==undefined){
  var isi = Matter.SAT.collides(pastel[index].corpo,barbanegra[i].corpo);
  if (isi.collided){
+contando+= 5;
  barbanegra[i].jacksparrow(i);
  World.remove(world,pastel[index].corpo);
  delete pastel[index];
