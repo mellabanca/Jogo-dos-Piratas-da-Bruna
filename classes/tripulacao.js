@@ -5,20 +5,16 @@ class Tripulacao {
         this.alt = alt;
         this.posicao = posicao;
         this.imagem = loadImage("./assets/boat.png");
-        World.add(world, this.corpo);
         this.animation = barbanegraAnimation;
         this.velocidade = 0.05;
-    }
-
-    marquinhos(){
-        this.velocidade +=0.05;
+        this.titanic = false;
+        World.add(world, this.corpo);
     }
 
     rabisco(){
         var pos = this.corpo.position;
         var angle = this.corpo.angle;
         var index = floor(this.velocidade % this.animation.length);
-
         push();
         translate(pos.x, pos.y);
         rotate(angle);
@@ -26,10 +22,21 @@ class Tripulacao {
         image(this.animation[index], 0, this.posicao, this.lar, this.alt);
         pop();
     }
-        jacksparrow(index){
+    
+    jacksparrow(index){
+        this.titanic = true;
+        this.velocidade = 0.05;
+        this.animation = aotAnimation;
+        this.lar = 300
+        this.alt = 300
         setTimeout(()=>{
         World.remove(world, barbanegra[index].corpo);
         delete barbanegra[index];
         },2000)
         }
+
+        
+    marquinhos(){
+        this.velocidade +=0.05;
+    }
 }
